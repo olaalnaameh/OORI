@@ -1,4 +1,4 @@
-package de.fhg.ids.app.ldcontainer;
+package de.fhg.ids.app.datadump;
 
 import com.jayway.restassured.RestAssured;
 import org.apache.http.HttpStatus;

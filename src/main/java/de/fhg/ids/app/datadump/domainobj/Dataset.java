@@ -1,11 +1,4 @@
-package de.fhg.ids.app.ldcontainer.domainobj;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonRootName;
-
-import java.io.File;
-import java.util.Collection;
-import java.util.Collections;
+package de.fhg.ids.app.datadump.domainobj;
 
 public class Dataset {
 

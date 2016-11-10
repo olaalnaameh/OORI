@@ -1,6 +1,6 @@
-package de.fhg.ids.app.ldcontainer;
+package de.fhg.ids.app.datadump;
 
-import de.fhg.ids.app.ldcontainer.domainobj.Dataset;
+import de.fhg.ids.app.datadump.domainobj.Dataset;
 import org.eclipse.rdf4j.common.iteration.Iterations;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
