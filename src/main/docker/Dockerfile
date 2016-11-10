@@ -6,7 +6,7 @@ ENV SERVER_PORT 8080
 
 VOLUME /tmp
 
-ADD ld-container-0.0.1-SNAPSHOT.jar ids-app.jar
+ADD data-dump-app-0.0.1-SNAPSHOT.jar ids-app.jar
 ADD run.sh run.sh
 
 RUN mkdir /tmp/datasets
