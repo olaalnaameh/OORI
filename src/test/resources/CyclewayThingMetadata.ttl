@@ -1,7 +1,0 @@
-@prefix idsv: <http://industrialdataspace.org/2016/10/idsv/core#> .
-@prefix customer: <http://company.com/ids#> .
-
-customer:cycleData a idsv:PublishedDataset;
-    idsv:title "Things you encounter along cycleways"@en;
-    idsv:createdAt "2015-11-24"^^xsd:date;
-    idsv:createdBy <https://www.fraunhofer.de/>.
