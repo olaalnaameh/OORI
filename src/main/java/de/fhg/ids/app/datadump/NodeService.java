@@ -37,7 +37,9 @@ class NodeService {
     public void subscribe(Node node) {
         logger.debug("subscribing node " +node.toString());
 
-        //todo: send the request to the node with interval=-1), forever (ttl=-1
+        //todo:
+        // 1. change request to the node with interval=-1), forever (ttl=-1
+        // 2. send it to the node
 
     }
 
