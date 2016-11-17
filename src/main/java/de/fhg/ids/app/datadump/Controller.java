@@ -22,23 +22,19 @@ import java.util.Collection;
 @RestController
 public class Controller  {
 
-    private final Logger logger = LoggerFactory.getLogger(Controller.class);
-
     @Autowired
     NodeService service;
 
     @RequestMapping(value = "/nodes/{url}", method = RequestMethod.POST)
     public void addNode(HttpServletRequest request, @PathVariable URL url) throws IOException {
-        BufferedReader omiReadRequestReader = request.getReader();
-
-        // todo:
-        // 1. add node to list of "managed" nodes
-        // 2. subscribe at the node for the objects passed in the request body
-
-        addNode();
+        String message = org.apache.commons.io.IOUtils.toString(request.getReader());
+        Node newNode = Node.build(url, message);
+        service.addNode(newNode);
+        service.subscribe(newNode);
     }
 
-    @RequestMapping(value = "/nodes", method = RequestMethod.GET)
+    @RequestMapping(value = "/nodes", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
     public Collection<Node> getNodes() {
         return service.getNodes();
     }
