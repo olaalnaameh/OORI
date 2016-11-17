@@ -25,8 +25,8 @@ public class Controller  {
     @Autowired
     NodeService service;
 
-    @RequestMapping(value = "/nodes/{url}", method = RequestMethod.POST)
-    public void addNode(HttpServletRequest request, @PathVariable URL url) throws IOException {
+    @RequestMapping(value = "/nodes", method = RequestMethod.POST)
+    public void addNode(HttpServletRequest request, @RequestParam URL url) throws IOException {
         String message = org.apache.commons.io.IOUtils.toString(request.getReader());
         Node newNode = Node.build(url, message);
         service.addNode(newNode);

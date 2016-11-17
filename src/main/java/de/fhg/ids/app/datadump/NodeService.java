@@ -31,10 +31,11 @@ class NodeService {
     private Collection<Node> nodes;
 
     public void addNode(Node node) {
-
+        logger.debug("adding node " +node.toString());
     }
 
     public void subscribe(Node node) {
+        logger.debug("subscribing node " +node.toString());
 
     }
 

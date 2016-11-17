@@ -28,4 +28,9 @@ public class Node {
     private static void validateXml(String subscriptionXMLRequest) {
 
     }
+
+    @Override
+    public String toString() {
+        return "Node: '" +url.toString()+ "', request: '" +subscriptionXMLRequest+ "'";
+    }
 }
