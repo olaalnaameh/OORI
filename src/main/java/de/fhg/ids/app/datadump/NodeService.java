@@ -28,14 +28,16 @@ class NodeService {
     private final Logger logger = LoggerFactory.getLogger(NodeService.class);
 
     private Repository repository;
-    private Collection<Node> nodes;
+    private Collection<Node> nodes = new HashSet<>();
 
     public void addNode(Node node) {
-        logger.debug("adding node " +node.toString());
+        nodes.add(node);
     }
 
     public void subscribe(Node node) {
         logger.debug("subscribing node " +node.toString());
+
+        //todo: send the request to the node with interval=-1), forever (ttl=-1
 
     }
 

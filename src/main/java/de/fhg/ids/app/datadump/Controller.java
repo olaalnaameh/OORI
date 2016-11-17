@@ -8,6 +8,7 @@ import org.eclipse.rdf4j.rio.turtle.TurtleWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,9 +27,12 @@ public class Controller  {
     NodeService service;
 
     @RequestMapping(value = "/nodes", method = RequestMethod.POST)
-    public void addNode(HttpServletRequest request, @RequestParam URL url) throws IOException {
-        String message = org.apache.commons.io.IOUtils.toString(request.getReader());
-        Node newNode = Node.build(url, message);
+    public void addNode(@RequestParam URL url, @RequestParam String omi) throws IOException {
+        System.out.println(url);
+        System.out.println(omi);
+
+        Node newNode = Node.build(url, omi);
+
         service.addNode(newNode);
         service.subscribe(newNode);
     }
