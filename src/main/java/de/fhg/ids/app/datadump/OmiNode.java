@@ -2,7 +2,6 @@ package de.fhg.ids.app.datadump;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -16,32 +15,30 @@ import java.net.URL;
 /**
  * Created by christian on 17.11.16.
  */
-public class Node {
+public class OmiNode {
 
-    private final static Logger logger = LoggerFactory.getLogger(Node.class);
+    private final static Logger logger = LoggerFactory.getLogger(OmiNode.class);
 
     private URL url;
     private String subscriptionXMLRequest;
 
-    public static Node build(URL url, String subscriptionXMLRequest) {
+    public static OmiNode build(URL url, String subscriptionXMLRequest) {
         validateXml(subscriptionXMLRequest);
-        return new Node(url, subscriptionXMLRequest);
+        return new OmiNode(url, subscriptionXMLRequest);
     }
 
-    private Node(URL url, String subscriptionXMLRequest) {
+    private OmiNode(URL url, String subscriptionXMLRequest) {
         this.url = url;
         this.subscriptionXMLRequest = subscriptionXMLRequest;
     }
 
     private static void validateXml(String subscriptionXMLRequest)  {
-        System.out.println(subscriptionXMLRequest);
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
             InputStream is = new ByteArrayInputStream( subscriptionXMLRequest.getBytes() );
             db.parse(is);
-
         }
         catch (SAXException | IOException | ParserConfigurationException e) {
             logger.info("Invalid O-MI request");
@@ -49,8 +46,16 @@ public class Node {
         }
     }
 
+    public URL getUrl() {
+        return url;
+    }
+
+    public String getSubscriptionXMLRequest() {
+        return subscriptionXMLRequest;
+    }
+
     @Override
     public String toString() {
-        return "Node: '" +url.toString()+ "', request: '" +subscriptionXMLRequest+ "'";
+        return "OmiNode: '" +url.toString()+ "', request: '" +subscriptionXMLRequest+ "'";
     }
 }
