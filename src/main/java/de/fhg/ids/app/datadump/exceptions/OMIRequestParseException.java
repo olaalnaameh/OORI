@@ -1,4 +1,4 @@
-package de.fhg.ids.app.datadump;
+package de.fhg.ids.app.datadump.exceptions;
 
 /**
  * Created by christian on 17.11.16.

@@ -1,6 +1,6 @@
 package de.fhg.ids.app.datadump;
 
-import org.eclipse.rdf4j.repository.Repository;
+import de.fhg.ids.app.datadump.exceptions.OMIRequestCreationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -26,10 +25,17 @@ import java.util.*;
 class NodeService {
 
     private final Logger logger = LoggerFactory.getLogger(NodeService.class);
-    private final String CALLBACK_URL = "http://localhost:8080/callback";
+    private final String CALLBACK_METHOD_PATH = "/callback";
 
     private Collection<OmiNode> omiNodes = new HashSet<>();
-    private String callbackUrl = CALLBACK_URL;
+    private String callbackUrl = CALLBACK_METHOD_PATH;
+
+    public NodeService() {
+        String protocol = System.getenv("PROTOCOL");
+        String hostname = System.getenv("HOSTNAME");
+        String port = System.getenv("PORT");
+        callbackUrl = protocol + "://" + hostname + ":" + port + CALLBACK_METHOD_PATH;
+    }
 
     public void addNode(OmiNode omiNode) {
         omiNodes.add(omiNode);
@@ -64,29 +70,21 @@ class NodeService {
             readNode.getAttributes().setNamedItem(interval);
             readNode.getAttributes().setNamedItem(callback);
 
-            DOMSource domSource = new DOMSource(doc);
-            StringWriter writer = new StringWriter();
-            StreamResult result = new StreamResult(writer);
-            TransformerFactory tf = TransformerFactory.newInstance();
-            Transformer transformer = tf.newTransformer();
-            transformer.transform(domSource, result);
-            writer.flush();
-            return writer.toString();
-
-
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (TransformerConfigurationException e) {
-            e.printStackTrace();
-        } catch (TransformerException e) {
-            e.printStackTrace();
+            return serializeDocument(doc);
         }
+        catch (TransformerException | SAXException | ParserConfigurationException | IOException e) {
+            logger.error("Error creating O-MI subscription request");
+            throw new OMIRequestCreationException(e);
+        }
+    }
 
-        return "";
+    private String serializeDocument(Document doc) throws TransformerException {
+        StringWriter writer = new StringWriter();
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer transformer = tf.newTransformer();
+        transformer.transform(new DOMSource(doc), new StreamResult(writer));
+        writer.flush();
+        return writer.toString();
     }
 
     private void sendRequest(URL url, String request) {
@@ -95,10 +93,6 @@ class NodeService {
 
     public void unsubscribe(OmiNode omiNode) {
 
-    }
-
-    public void setCallbackUrl(String callbackUrl) {
-        this.callbackUrl = callbackUrl;
     }
 
     public Collection<OmiNode> getOmiNodes() {
