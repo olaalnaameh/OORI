@@ -21,6 +21,7 @@ public class OmiNode {
 
     private URL url;
     private String subscriptionXMLRequest;
+    private String subscriptionId;
 
     public OmiNode() {
     }
@@ -34,8 +35,7 @@ public class OmiNode {
             db.parse(is);
         }
         catch (SAXException | IOException | ParserConfigurationException e) {
-            logger.info("Invalid O-MI request");
-            throw new OMIRequestParseException(e);
+            throw new OMIRequestParseException("Invalid O-MI request", e);
         }
     }
 
@@ -53,6 +53,14 @@ public class OmiNode {
 
     public void setSubscriptionXMLRequest(String subscriptionXMLRequest) {
         this.subscriptionXMLRequest = subscriptionXMLRequest;
+    }
+
+    public String getSubscriptionId() {
+        return subscriptionId;
+    }
+
+    public void setSubscriptionId(String subscriptionId) {
+        this.subscriptionId = subscriptionId;
     }
 
     @Override

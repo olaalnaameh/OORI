@@ -2,8 +2,10 @@ package de.fraunhofer.iais.eis.biotope;
 
 import de.fraunhofer.iais.eis.biotope.exceptions.OMIRequestCreationException;
 import de.fraunhofer.iais.eis.biotope.exceptions.OMIRequestResponseException;
+import de.fraunhofer.iais.eis.biotope.exceptions.OMIRequestSendException;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -35,7 +37,7 @@ class NodeService {
     private final Logger logger = LoggerFactory.getLogger(NodeService.class);
     private final String CALLBACK_METHOD_PATH = "/callback";
     private final String DEFAULT_PROTOCOL = "http";
-    private final String DEFAULT_PORT = "8080";
+    private final String DEFAULT_PORT = "9000";
     private final String DEFAULT_HOSTNAME = "localhost";
 
     private Collection<OmiNode> omiNodes = new HashSet<>();
@@ -62,13 +64,8 @@ class NodeService {
         logger.debug("subscribing omiNode " + omiNode.toString());
         String subscriptionRequest = createSubscriptionRequest(omiNode.getSubscriptionXMLRequest());
 
-        try {
-            sendRequest(omiNode.getUrl(), subscriptionRequest);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        HttpResponse response = sendRequest(omiNode.getUrl(), subscriptionRequest);
+        omiNode.setSubscriptionId(getSubscriptionRequestId(response));
     }
 
     private String createSubscriptionRequest(String subscriptionXMLRequest) {
@@ -110,17 +107,21 @@ class NodeService {
         return writer.toString();
     }
 
-    private void sendRequest(URL url, String request) throws URISyntaxException, IOException {
+    private HttpResponse sendRequest(URL url, String request) {
         CloseableHttpClient client = HttpClients.createDefault();
-        HttpPost post = new HttpPost(url.toURI());
-        post.setEntity(new StringEntity(request));
-        HttpResponse response = client.execute(post);
 
-        checkResponseOk(response);
+        try {
+            HttpPost post = new HttpPost(url.toURI());
+            post.setEntity(new StringEntity(request));
+            return client.execute(post);
+        }
+        catch (URISyntaxException | IOException e) {
+            throw new OMIRequestSendException("Error sending O-MI request", e);
+        }
     }
 
-    private void checkResponseOk(HttpResponse response) {
-        int httpStatus = response.getStatusLine().getStatusCode();
+    private String getSubscriptionRequestId(HttpResponse subscriptionResponse) {
+        int httpStatus = subscriptionResponse.getStatusLine().getStatusCode();
         if (httpStatus != HttpStatus.SC_OK) {
             throw new OMIRequestResponseException("HTTP response status: " +httpStatus);
         }
@@ -128,7 +129,8 @@ class NodeService {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(response.getEntity().getContent());
+            Document doc = db.parse(subscriptionResponse.getEntity().getContent());
+
             Node returnNode = doc.getElementsByTagName("omi:return").item(0);
 
             int omiStatus = Integer.parseInt(returnNode.getAttributes().getNamedItem("returnCode").getNodeValue());
@@ -137,6 +139,8 @@ class NodeService {
             if (omiStatus != HttpStatus.SC_OK) {
                 throw new OMIRequestResponseException("O-MI response status: " +omiStatus+ ", description: '" +omiDescription+ "'");
             }
+
+            return doc.getElementsByTagName("omi:requestID").item(0).getTextContent();
         }
         catch (SAXException | ParserConfigurationException | IOException e) {
             throw new OMIRequestCreationException("Error parsing O-MI response", e);
