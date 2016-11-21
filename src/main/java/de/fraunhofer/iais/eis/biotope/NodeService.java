@@ -151,6 +151,12 @@ class NodeService {
 
     }
 
+    public void valueChanged(String omiMessage) {
+        System.out.println("changed: '" +omiMessage+ "'");
+
+        // todo: convert to RDF and update repository
+    }
+
     public Collection<OmiNode> getOmiNodes() {
         return omiNodes;
     }
