@@ -1,8 +1,9 @@
-package de.fhg.ids.app.datadump;
+package de.fraunhofer.iais.eis.biotope;
 
-import de.fhg.ids.app.datadump.exceptions.OMIRequestParseException;
+import de.fraunhofer.iais.eis.biotope.exceptions.OMIRequestParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -13,9 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-/**
- * Created by christian on 17.11.16.
- */
+@Component
 public class OmiNode {
 
     private final static Logger logger = LoggerFactory.getLogger(OmiNode.class);
@@ -23,17 +22,10 @@ public class OmiNode {
     private URL url;
     private String subscriptionXMLRequest;
 
-    public static OmiNode build(URL url, String subscriptionXMLRequest) {
-        validateXml(subscriptionXMLRequest);
-        return new OmiNode(url, subscriptionXMLRequest);
+    public OmiNode() {
     }
 
-    private OmiNode(URL url, String subscriptionXMLRequest) {
-        this.url = url;
-        this.subscriptionXMLRequest = subscriptionXMLRequest;
-    }
-
-    private static void validateXml(String subscriptionXMLRequest)  {
+    public void validate()  {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
         try {
@@ -51,8 +43,16 @@ public class OmiNode {
         return url;
     }
 
+    public void setUrl(URL url) {
+        this.url = url;
+    }
+
     public String getSubscriptionXMLRequest() {
         return subscriptionXMLRequest;
+    }
+
+    public void setSubscriptionXMLRequest(String subscriptionXMLRequest) {
+        this.subscriptionXMLRequest = subscriptionXMLRequest;
     }
 
     @Override

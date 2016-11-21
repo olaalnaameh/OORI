@@ -1,4 +1,4 @@
-package de.fhg.ids.app.datadump.exceptions;
+package de.fraunhofer.iais.eis.biotope.exceptions;
 
 /**
  * Created by christian on 17.11.16.

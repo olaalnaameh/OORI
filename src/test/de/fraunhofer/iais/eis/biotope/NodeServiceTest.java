@@ -1,4 +1,4 @@
-package de.fhg.ids.app.datadump;
+package de.fraunhofer.iais.eis.biotope;
 
 /**
  * Created by christian on 18.11.16.

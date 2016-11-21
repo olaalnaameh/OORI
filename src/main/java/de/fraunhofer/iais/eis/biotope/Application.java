@@ -1,4 +1,4 @@
-package de.fhg.ids.app.datadump;
+package de.fraunhofer.iais.eis.biotope;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
