@@ -1,0 +1,35 @@
+<omi:omiEnvelope ttl="-1.0" version="1.0" xmlns="odf.xsd" xmlns:omi="omi.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <omi:response>
+        <omi:result msgformat="odf">
+            <omi:return returnCode="200"></omi:return>
+            <omi:requestID>4</omi:requestID>
+            <omi:msg>
+                <Objects>
+                    <Object>
+                        <id>SmartHouse</id>
+                        <InfoItem name="BackDoor">
+                            <value unixTime="1479726703" dateTime="2016-11-21T12:11:43.055+01:00" type="xs:string">100</value>
+                        </InfoItem>
+                    </Object>
+                </Objects>
+            </omi:msg>
+        </omi:result>
+    </omi:response>
+</omi:omiEnvelope>
+
+
+
+
+<http://eis-biotope.iais.fraunhofer.de/biotope.sntiotlab.lu/SmartHouse> a odf:Object;
+  skos:notation "SmartHouse";
+  odf:infoItem [
+    a odf:InfoItem;
+    dcterms:title "BackDoor";
+    odf:value [
+        dcterms:created "2016-11-21T12:11:43.055+01:00"^^xsd:dateTime;
+        odf:dataValue "100"^^xsd:String
+    ]
+  ]
+
+
+

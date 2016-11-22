@@ -1,0 +1,9 @@
+odf:Object a owl:Class.
+odf:InfoItem a owl:Class.
+odf:Value a owl:Class.
+odf:Metadata a owl:Class.
+
+odf:value a owl:DatatypeProperty.
+odf:metadata a owl:ObjectProperty.
+odf:infoitem a owl:ObjectProperty.
+odf:object a owl:ObjectProperty.

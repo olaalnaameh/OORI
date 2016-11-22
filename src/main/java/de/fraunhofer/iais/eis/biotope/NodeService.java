@@ -154,6 +154,8 @@ class NodeService {
     public void valueChanged(String omiMessage) {
         System.out.println("changed: '" +omiMessage+ "'");
 
+        // todo: dump rdf
+
         // todo: convert to RDF and update repository
     }
 
