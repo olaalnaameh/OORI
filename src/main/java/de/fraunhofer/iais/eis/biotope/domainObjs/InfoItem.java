@@ -11,6 +11,7 @@ import org.eclipse.rdf4j.model.vocabulary.RDF;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -18,7 +19,8 @@ import java.util.HashSet;
 public class InfoItem {
 
     private String name;
-    private Collection<Value> values;
+    private Collection<Value> values = new ArrayList<>();
+    private Collection<MetaData> metaData = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -36,6 +38,15 @@ public class InfoItem {
     @XmlElement(name = "value")
     public void setValues(Collection<Value> values) {
         this.values = values;
+    }
+
+    public Collection<MetaData> getMetaData() {
+        return metaData;
+    }
+
+    @XmlElement(name = "MetaData")
+    public void setMetaData(Collection<MetaData> metaData) {
+        this.metaData = metaData;
     }
 
     public Model serialize(ValueFactory vf, String infoItemBaseIri) {
@@ -58,8 +69,17 @@ public class InfoItem {
             builder.add("odf:value", valueId);
         });
 
+        Collection<Model> metaDataModels = new HashSet<>();
+        metaData.forEach(md -> metaDataModels.add(md.serialize(vf, subject + "/")));
+
+        metaDataModels.forEach(model -> {
+            Resource metadataId = model.iterator().next().getSubject();
+            builder.add("odf:metadata", metadataId);
+        });
+
         Model infoItemModel = builder.build();
         valueModels.forEach(valueModel -> infoItemModel.addAll(valueModel));
+        metaDataModels.forEach(metadataModel -> infoItemModel.addAll(metadataModel));
 
         return infoItemModel;
     }
