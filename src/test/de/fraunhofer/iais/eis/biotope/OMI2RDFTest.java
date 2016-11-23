@@ -24,5 +24,12 @@ public class OMI2RDFTest {
         //todo: add assertions
     }
 
+    @Test
+    public void omi2rdf_multi_objects()  {
+        InputStream odfStructure = getClass().getResourceAsStream("/resources/objTreeMultiObjects.xml");
+        odf2rdf.odf2rdf(odfStructure);
+
+        //todo: add assertions
+    }
 
 }
