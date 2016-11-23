@@ -4,8 +4,7 @@
         <Object>
             <id>Kitchen</id>
             <InfoItem name="Moisture">
-                <description>
-                </description>
+                <description>some description</description>
                 <MetaData>
                     <InfoItem name="Accuracy">
                         <value unixTime="1479724613" dateTime="2016-11-21T11:36:53.364+01:00" type="xs:double">0.5</value>

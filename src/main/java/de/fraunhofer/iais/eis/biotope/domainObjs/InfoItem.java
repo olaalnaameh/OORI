@@ -38,8 +38,8 @@ public class InfoItem {
         this.values = values;
     }
 
-    public Model serialize(ValueFactory vf, IRI infoItemBaseIri) {
-        IRI subject = vf.createIRI(infoItemBaseIri.toString() + name);
+    public Model serialize(ValueFactory vf, String infoItemBaseIri) {
+        IRI subject = vf.createIRI(infoItemBaseIri + name);
 
         ModelBuilder builder = new ModelBuilder();
         builder.setNamespace("dct", NS.DCT)

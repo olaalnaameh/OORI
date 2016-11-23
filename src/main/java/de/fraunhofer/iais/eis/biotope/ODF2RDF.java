@@ -40,13 +40,12 @@ public class ODF2RDF {
 
     private String hostname = "localhost";
 
-    public Model odf2rdf(InputStream odfStructure) throws ParserConfigurationException, IOException, SAXException, XPathExpressionException, JAXBException {
-
+    public Model odf2rdf(InputStream odfStructure) {
         Objects beans = JAXB.unmarshal(odfStructure, Objects.class);
 
         ValueFactory vf = new MemValueFactory();
-        IRI objectBaseIri = vf.createIRI(BASE_URI + hostname + "/obj/");
-        IRI infoItemBaseIri = vf.createIRI(BASE_URI + hostname + "/infoitem/");
+        String objectBaseIri = BASE_URI + hostname + "/obj/";
+        String infoItemBaseIri = BASE_URI + hostname + "/infoitem/";
 
         Model model = new ModelBuilder().build();
         beans.getObjects().forEach(objectBean -> model.addAll(objectBean.serialize(vf, objectBaseIri, infoItemBaseIri)));

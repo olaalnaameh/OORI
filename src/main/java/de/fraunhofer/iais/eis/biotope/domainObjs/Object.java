@@ -9,7 +9,9 @@ import org.eclipse.rdf4j.model.vocabulary.RDF;
 import javax.xml.bind.DatatypeConverter;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 
 @XmlRootElement
@@ -17,7 +19,8 @@ public class Object {
 
     private String id;
 
-    private Collection<InfoItem> infoItems;
+    private Collection<InfoItem> infoItems = new ArrayList<>();
+    private Collection<Object> objects = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -37,9 +40,18 @@ public class Object {
         this.infoItems = infoItems;
     }
 
-    public Model serialize(ValueFactory vf, IRI objectBaseIri, IRI infoItemBaseIri) {
+    public Collection<Object> getObjects() {
+        return objects;
+    }
 
-        IRI subject = vf.createIRI(objectBaseIri.toString() + id);
+    @XmlElement(name = "Object")
+    public void setObjects(Collection<Object> objects) {
+        this.objects = objects;
+    }
+
+    public Model serialize(ValueFactory vf, String objectBaseIri, String infoItemBaseIri) {
+
+        IRI subject = vf.createIRI(objectBaseIri + id);
 
         ModelBuilder builder = new ModelBuilder();
         builder.setNamespace("dct", NS.DCT)
@@ -51,17 +63,27 @@ public class Object {
                 .add("skos:notation", id);
 
         Collection<Model> infoItemModels = new HashSet<>();
-        infoItems.forEach(infoitem -> infoItemModels.add(infoitem.serialize(vf, infoItemBaseIri)));
+        String objRelatedInfoItemBaseIri = infoItemBaseIri + id + "/";
+        infoItems.forEach(infoitem -> infoItemModels.add(infoitem.serialize(vf, objRelatedInfoItemBaseIri)));
+
+        Collection<Model> nestedObjectsModels = new HashSet<>();
+        String nestedObjectsBaseIri = subject.toString() + "/";
+        objects.forEach(object -> nestedObjectsModels.add(object.serialize(vf, nestedObjectsBaseIri, objRelatedInfoItemBaseIri)));
 
         infoItemModels.forEach(model -> {
-            Resource infoItemId = model.iterator().next().getSubject();
-            builder.add("odf:infoitem", infoItemId);
+            builder.add("odf:infoitem", model.iterator().next().getSubject());
+        });
+
+        nestedObjectsModels.forEach(model -> {
+            builder.add("odf:object", model.iterator().next().getSubject());
         });
 
         Model objectModel = builder.build();
         infoItemModels.forEach(infoItemModel -> objectModel.addAll(infoItemModel));
+        nestedObjectsModels.forEach(nestedObjectsModel -> objectModel.addAll(nestedObjectsModel));
 
         return objectModel;
     }
+
 
 }

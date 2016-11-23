@@ -5,7 +5,7 @@
 
 <http://eis-biotope.iais.fraunhofer.de/biotope.sntiotlab.lu/SmartHouse> a odf:Object;
     skos:id "SmartHouse";
-    odf:objects [
+    odf:object [
         skos:id "Kitchen";
         odf:infoitem [
             a odf:InfoItem;
