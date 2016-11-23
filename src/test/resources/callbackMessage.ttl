@@ -4,7 +4,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 <http://eis-biotope.iais.fraunhofer.de/biotope.sntiotlab.lu/obj/SmartHouse> a odf:Object;
-  skos:notation "SmartHouse";
+  skos:id "SmartHouse";
   odf:infoitem <http://eis-biotope.iais.fraunhofer.de/biotope.sntiotlab.lu/infoitem/Backdoor> .
 
 <http://eis-biotope.iais.fraunhofer.de/biotope.sntiotlab.lu/infoitem/Backdoor>

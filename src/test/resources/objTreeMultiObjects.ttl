@@ -1,8 +1,8 @@
 
 <http://eis-biotope.iais.fraunhofer.de/biotope.sntiotlab.lu/SmartHouse> a odf:Object;
-    skos:notation "SmartHouse";
-    odf:object [
-        skos:notation "BedRoom";
+    skos:id "SmartHouse";
+    odf:objects [
+        skos:id "BedRoom";
         odf:infoitem [
             dcterms:title "Moisture";
             odf:value [
@@ -11,8 +11,8 @@
             ]
         ]
     ]
-    odf:object [
-        skos:notation "Kitchen";
+    odf:objects [
+        skos:id "Kitchen";
         odf:infoitem [
             a odf:InfoItem;
             dcterms:title "Moisture";

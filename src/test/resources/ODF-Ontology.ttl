@@ -41,7 +41,7 @@ odf:metadata a owl:ObjectProperty;
 odf:infoitem a owl:ObjectProperty;
     rdfs:range odf:InfoItem.
 
-odf:object a owl:ObjectProperty;
+odf:objects a owl:ObjectProperty;
     rdfs:domain odf:Object;
     rdfs:range odf:Object.
 

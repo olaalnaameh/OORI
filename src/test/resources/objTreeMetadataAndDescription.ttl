@@ -4,9 +4,9 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 <http://eis-biotope.iais.fraunhofer.de/biotope.sntiotlab.lu/SmartHouse> a odf:Object;
-    skos:notation "SmartHouse";
-    odf:object [
-        skos:notation "Kitchen";
+    skos:id "SmartHouse";
+    odf:objects [
+        skos:id "Kitchen";
         odf:infoitem [
             a odf:InfoItem;
             dcterms:title "Moisture";
