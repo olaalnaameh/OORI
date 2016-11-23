@@ -2,6 +2,12 @@ package de.fraunhofer.iais.eis.biotope;
 
 import de.fraunhofer.iais.eis.biotope.domainObjs.Object;
 import de.fraunhofer.iais.eis.biotope.domainObjs.Objects;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Model;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.rio.RDFWriter;
+import org.eclipse.rdf4j.rio.turtle.TurtleWriter;
+import org.eclipse.rdf4j.sail.memory.model.MemValueFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -26,19 +32,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 
-/**
- * Created by christian on 22.11.16.
- */
 public class ODF2RDF {
 
     public void odf2rdf(String xml) throws ParserConfigurationException, IOException, SAXException, XPathExpressionException, JAXBException {
 
-        Objects r = JAXB.unmarshal(new StringReader(xml), Objects.class);
+        Objects beans = JAXB.unmarshal(new StringReader(xml), Objects.class);
 
-        System.out.println("xxx");
+        ValueFactory vf = new MemValueFactory();
+        IRI objectBaseIri = vf.createIRI("http://eis-biotope.iais.fraunhofer.de/biotope.sntiotlab.lu/obj/");
+        IRI infoItemBaseIri = vf.createIRI("http://eis-biotope.iais.fraunhofer.de/biotope.sntiotlab.lu/infoitem/");
 
+        for (Object obj : beans.getObjects()) {
+            Model objModel = obj.serialize(vf, objectBaseIri, infoItemBaseIri);
+            dumpModel(objModel);
+        }
     }
 
-
+    private void dumpModel(Model model) {
+        RDFWriter rdfWriter = new TurtleWriter(System.out);
+        rdfWriter.startRDF();
+        model.forEach(statment -> rdfWriter.handleStatement(statment));
+        rdfWriter.endRDF();
+    }
 
 }
