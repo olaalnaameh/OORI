@@ -18,13 +18,15 @@ public class OMI2RDFTest {
 
     @Test
     public void omi2rdf() throws IOException, SAXException, ParserConfigurationException, XPathExpressionException, JAXBException {
-        InputStream msg = getClass().getResourceAsStream("/resources/callbackMessage.xml");
+        InputStream odfStructure = getClass().getResourceAsStream("/resources/callbackMessage.xml");
 
+        /*
         StringWriter writer = new StringWriter();
         IOUtils.copy(msg, writer, Charset.defaultCharset());
         String theString = writer.toString();
+        */
 
-        ODF2Rdf.odf2rdf(theString);
+        ODF2Rdf.odf2rdf(odfStructure);
     }
 
 }

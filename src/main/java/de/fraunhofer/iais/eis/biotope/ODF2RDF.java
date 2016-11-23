@@ -4,7 +4,9 @@ import de.fraunhofer.iais.eis.biotope.domainObjs.Object;
 import de.fraunhofer.iais.eis.biotope.domainObjs.Objects;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Model;
+import org.eclipse.rdf4j.model.ModelFactory;
 import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.util.ModelBuilder;
 import org.eclipse.rdf4j.rio.RDFWriter;
 import org.eclipse.rdf4j.rio.turtle.TurtleWriter;
 import org.eclipse.rdf4j.sail.memory.model.MemValueFactory;
@@ -34,18 +36,23 @@ import java.io.StringReader;
 
 public class ODF2RDF {
 
-    public void odf2rdf(String xml) throws ParserConfigurationException, IOException, SAXException, XPathExpressionException, JAXBException {
+    private final static String BASE_URI = "http://eis-biotope.iais.fraunhofer.de/";
 
-        Objects beans = JAXB.unmarshal(new StringReader(xml), Objects.class);
+    private String hostname = "localhost";
+
+    public Model odf2rdf(InputStream odfStructure) throws ParserConfigurationException, IOException, SAXException, XPathExpressionException, JAXBException {
+
+        Objects beans = JAXB.unmarshal(odfStructure, Objects.class);
 
         ValueFactory vf = new MemValueFactory();
-        IRI objectBaseIri = vf.createIRI("http://eis-biotope.iais.fraunhofer.de/biotope.sntiotlab.lu/obj/");
-        IRI infoItemBaseIri = vf.createIRI("http://eis-biotope.iais.fraunhofer.de/biotope.sntiotlab.lu/infoitem/");
+        IRI objectBaseIri = vf.createIRI(BASE_URI + hostname + "/obj/");
+        IRI infoItemBaseIri = vf.createIRI(BASE_URI + hostname + "/infoitem/");
 
-        for (Object obj : beans.getObjects()) {
-            Model objModel = obj.serialize(vf, objectBaseIri, infoItemBaseIri);
-            dumpModel(objModel);
-        }
+        Model model = new ModelBuilder().build();
+        beans.getObjects().forEach(objectBean -> model.addAll(objectBean.serialize(vf, objectBaseIri, infoItemBaseIri)));
+        dumpModel(model);
+
+        return model;
     }
 
     private void dumpModel(Model model) {
@@ -55,4 +62,7 @@ public class ODF2RDF {
         rdfWriter.endRDF();
     }
 
+    public void setHostname(String hostname) {
+        this.hostname = hostname;
+    }
 }
