@@ -4,6 +4,7 @@ import org.apache.http.config.SocketConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Collection;
 
@@ -28,7 +29,7 @@ public class Controller  {
     }
 
     @RequestMapping(value = "/callback", method = RequestMethod.POST)
-    public void callback(@RequestBody String body) {
-        service.valueChanged(body);
+    public void callback(HttpServletRequest body) {
+        service.valueChanged(body.getParameter("msg"));
     }
 }

@@ -2,6 +2,7 @@ package de.fraunhofer.iais.eis.biotope;
 
 import de.fraunhofer.iais.eis.biotope.domainObjs.Object;
 import de.fraunhofer.iais.eis.biotope.domainObjs.Objects;
+import org.apache.commons.io.IOUtils;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.ModelFactory;
@@ -10,6 +11,7 @@ import org.eclipse.rdf4j.model.util.ModelBuilder;
 import org.eclipse.rdf4j.rio.RDFWriter;
 import org.eclipse.rdf4j.rio.turtle.TurtleWriter;
 import org.eclipse.rdf4j.sail.memory.model.MemValueFactory;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -29,12 +31,11 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
+import java.io.*;
+import java.nio.charset.Charset;
 
-public class ODF2RDF {
+@Component
+public class OdfRdfConverter {
 
     private final static String BASE_URI = "http://eis-biotope.iais.fraunhofer.de/";
 
@@ -49,7 +50,7 @@ public class ODF2RDF {
 
         Model model = new ModelBuilder().build();
         beans.getObjects().forEach(objectBean -> model.addAll(objectBean.serialize(vf, objectBaseIri, infoItemBaseIri)));
-        dumpModel(model);
+        //dumpModel(model);
 
         return model;
     }

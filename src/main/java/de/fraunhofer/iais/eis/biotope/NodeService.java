@@ -5,17 +5,21 @@ import de.fraunhofer.iais.eis.biotope.exceptions.OMIRequestResponseException;
 import de.fraunhofer.iais.eis.biotope.exceptions.OMIRequestSendException;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.eclipse.rdf4j.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -29,6 +33,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Component
@@ -40,8 +45,15 @@ class NodeService {
     private final String DEFAULT_PORT = "9000";
     private final String DEFAULT_HOSTNAME = "localhost";
 
+    private DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
     private Collection<OmiNode> omiNodes = new HashSet<>();
     private String callbackUrl = CALLBACK_METHOD_PATH;
+
+    @Autowired
+    private OdfRdfConverter odfRdfConverter;
+
+    @Autowired
+    private OdfRdfRepository odfRdfRepository;
 
     public NodeService() {
         String protocol = System.getenv("PROTOCOL");
@@ -69,8 +81,6 @@ class NodeService {
     }
 
     private String createSubscriptionRequest(String subscriptionXMLRequest) {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
             InputStream is = new ByteArrayInputStream(subscriptionXMLRequest.getBytes());
@@ -126,14 +136,13 @@ class NodeService {
             throw new OMIRequestResponseException("HTTP response status: " +httpStatus);
         }
 
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(subscriptionResponse.getEntity().getContent());
 
             Node returnNode = doc.getElementsByTagName("omi:return").item(0);
 
-            int omiStatus = Integer.parseInt(returnNode.getAttributes().getNamedItem("returnCode").getNodeValue());
+            int omiStatus = getOmiDocumentReturnCode(doc);
             String omiDescription = returnNode.getAttributes().getNamedItem("description").getNodeValue();
 
             if (omiStatus != HttpStatus.SC_OK) {
@@ -147,16 +156,49 @@ class NodeService {
         }
     }
 
+    private int getOmiDocumentReturnCode(Document doc) {
+        Node returnNode = doc.getElementsByTagName("omi:return").item(0);
+        return Integer.parseInt(returnNode.getAttributes().getNamedItem("returnCode").getNodeValue());
+    }
+
     public void unsubscribe(OmiNode omiNode) {
 
     }
 
     public void valueChanged(String omiMessage) {
-        System.out.println("changed: '" +omiMessage+ "'");
+        logger.info("O-MI value changed. Message: '" +omiMessage+ "'");
 
-        // todo: dump rdf
+        try {
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(new ByteArrayInputStream(omiMessage.getBytes(StandardCharsets.UTF_8)));
+            int omiRetCode = getOmiDocumentReturnCode(doc);
+            if (omiRetCode == HttpStatus.SC_OK) {
+                String odfStructure = innerXml(doc.getElementsByTagName("omi:msg").item(0));
+                persistOdfStructure(odfStructure);
+            }
+            else {
+                logger.warn("O-MI message has error code " +omiRetCode+ ". Ignoring the message.");
+            }
+        } catch (SAXException | ParserConfigurationException | IOException e) {
+            throw new OMIRequestCreationException("Error parsing O-MI message", e);
+        }
+    }
 
-        // todo: convert to RDF and update repository
+    private String innerXml(Node node) {
+        DOMImplementationLS lsImpl = (DOMImplementationLS)node.getOwnerDocument().getImplementation().getFeature("LS", "3.0");
+        LSSerializer lsSerializer = lsImpl.createLSSerializer();
+        lsSerializer.getDomConfig().setParameter("xml-declaration", false);
+        NodeList childNodes = node.getChildNodes();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < childNodes.getLength(); i++) {
+            sb.append(lsSerializer.writeToString(childNodes.item(i)));
+        }
+        return sb.toString();
+    }
+
+    private void persistOdfStructure(String odfStructure) {
+        Model odfData = odfRdfConverter.odf2rdf(new ByteArrayInputStream(odfStructure.getBytes(StandardCharsets.UTF_8)));
+        odfRdfRepository.persist(odfData);
     }
 
     public Collection<OmiNode> getOmiNodes() {
