@@ -30,7 +30,7 @@ public class OdfRdfRepository {
             repository = new SailRepository(new MemoryStore());
         }
         else {
-            logger.info("Setting HTTP repository at '" + endpointUrl + "'");
+            logger.info("Setting SPARQL repository to be used: '" + endpointUrl + "'");
             repository = new SPARQLRepository(endpointUrl);
         }
 

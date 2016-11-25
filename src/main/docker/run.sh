@@ -23,4 +23,4 @@ fi
 
 echo "ARGS=${ARGS}"
 
-exec java ${ARGS} -jar /ids-app.jar
+exec java ${ARGS} -jar /omi-odf-rdf-integration.jar
