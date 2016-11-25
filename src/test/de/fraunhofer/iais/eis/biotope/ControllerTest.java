@@ -19,12 +19,15 @@ import static com.jayway.restassured.RestAssured.*;
 import static org.apache.commons.lang3.StringUtils.containsOnly;
 import static org.hamcrest.Matchers.equalTo;
 
+/*
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
 @IntegrationTest("server.port:0")
+*/
 public class ControllerTest {
 
+    /*
     @Value("${local.server.port}")
     int port;
 
@@ -52,5 +55,6 @@ public class ControllerTest {
         Assert.assertEquals(HttpStatus.SC_OK, when().get("/dataset/{id}/meta", 0).statusCode());
         Assert.assertFalse(when().get("/dataset/{id}/meta", 0).body().asString().isEmpty());
     }
+    */
 
 }

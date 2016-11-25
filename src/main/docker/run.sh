@@ -5,7 +5,10 @@ echo "Starting Spring boot app"
 # Set a server port, default is 8080
 : ${SERVER_PORT=8080}
 
-ARGS="-Djava.security.egd=file:/dev/./urandom -Dserver.port=${SERVER_PORT}"
+# Set a sparql repository endpoint url, default is empty, i.e. fallback to in-memory repository
+: ${ENDPOINT_URL=""}
+
+ARGS="-Djava.security.egd=file:/dev/./urandom -Dserver.port=${SERVER_PORT} -Dendpoint.url=${ENDPOINT_URL}"
 
 # Add proxy args
 if [ ! -z "$PROXY_HOST" ]; then
