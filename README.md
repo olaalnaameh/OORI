@@ -19,7 +19,7 @@ To start using the server, first obtain the source code by either cloning or dow
 
 ### Building the project
 
-Go to a command prompt and move to the ```oori``` directory.
+Go to a command prompt and move to the ```~/oori``` directory.
 
 ```
 mvn clean package 
@@ -92,16 +92,11 @@ An exempary JSON body of such a POST request may look like the following:
 }
 ```
 
-
 ## Built With
 
 * [Maven](https://maven.apache.org/) - Dependency Management
 * [Spring Boot](https://projects.spring.io/spring-boot/) - Application Framework
 * [docker-maven-plugin](https://github.com/spotify/docker-maven-plugin) - Docker Image Creation
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
 
 ## Future Work
 
@@ -124,4 +119,4 @@ This project is licensed under the GPLv3 License - see the [LICENSE](LICENSE) fi
 
 ## Acknowledgments
 
-This work was funded by the [bIoTope project](http://biotope.cs.hut.fi/)
+This work was funded by the [bIoTope project](http://biotope.cs.hut.fi/).
