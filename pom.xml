@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.fhg.ids.iais</groupId>
-    <artifactId>omi-odf-rdf-integration</artifactId>
+    <artifactId>oori</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <description>
 	    A server performing integration of multiple O-MI nodes by replicating a copy of their data in RDF format.
@@ -15,7 +15,7 @@
         <java.version>1.8</java.version>
         <spring-boot.version>1.3.6.RELEASE</spring-boot.version>
         <docker.image.prefix>biotope</docker.image.prefix>
-        <docker.image.name>omi-odf-rdf-integration</docker.image.name>
+        <docker.image.name>oori</docker.image.name>
     </properties>
 
     <dependencies>
