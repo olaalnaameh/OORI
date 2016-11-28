@@ -5,10 +5,13 @@ import de.fraunhofer.iais.eis.biotope.exceptions.OMIRequestResponseException;
 import de.fraunhofer.iais.eis.biotope.exceptions.OMIRequestSendException;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.eclipse.rdf4j.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -118,7 +121,7 @@ class NodeService {
     }
 
     private HttpResponse sendRequest(URL url, String request) {
-        CloseableHttpClient client = HttpClients.createDefault();
+        HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
 
         try {
             HttpPost post = new HttpPost(url.toURI());
