@@ -1,0 +1,13 @@
+version: '1'
+services:
+    oori:
+      build: ./src/main/docker
+      environment:
+        - SERVER_PORT: "8080"
+        - ENDPOINT_URL: "http://localhost:3030/odfData"
+      ports:
+        - "9090:9090"
+    fuseki:
+      image: stain/jena-fuseki
+      ports:
+        - "3030:3030"
