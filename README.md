@@ -75,8 +75,8 @@ An exempary JSON body of such a POST request may look like the following:
 
 ```
 {
-  "url": "http://otaniemi3d.cs.hut.fi/omi/node/",
-  "subscriptionXMLRequest": "<?xml version='1.0' encoding='UTF-8'?><omi:omiEnvelope xmlns:xs='http://www.w3.org/2001/XMLSchema-instance' xmlns:omi='omi.xsd' version='1.0' ttl='0'><omi:read msgformat='odf'><omi:msg><Objects xmlns='odf.xsd'><Object><id>KarysHouse</id><InfoItem name='Air Handling Unit'/></Object></Objects></omi:msg></omi:read></omi:omiEnvelope>"
+ "url": "http://biotope.sntiotlab.lu:8080/",
+ "subscriptionXMLRequest": "<?xml version='1.0' encoding='UTF-8'?><omi:omiEnvelope xmlns:xs='http://www.w3.org/2001/XMLSchema-instance' xmlns:omi='omi.xsd' version='1.0' ttl='0'><omi:read msgformat='odf'><omi:msg><Objects xmlns='odf.xsd'><Object><id>SnT</id><Object><id>IoTlab</id><Object><id>Netatmo</id><InfoItem name='Location'/></Object></Object></Object></Objects></omi:msg></omi:read></omi:omiEnvelope>"
 }
 ```
 

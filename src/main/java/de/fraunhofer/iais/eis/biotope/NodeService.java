@@ -121,7 +121,7 @@ class NodeService {
     }
 
     private HttpResponse sendRequest(URL url, String request) {
-        HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
+        CloseableHttpClient client = HttpClients.createDefault();
 
         try {
             HttpPost post = new HttpPost(url.toURI());
@@ -152,7 +152,10 @@ class NodeService {
                 throw new OMIRequestResponseException("O-MI response status: " +omiStatus+ ", description: '" +omiDescription+ "'");
             }
 
-            return doc.getElementsByTagName("omi:requestID").item(0).getTextContent();
+            String subscriptionId = doc.getElementsByTagName("omi:requestID").item(0).getTextContent();
+
+            logger.info("Subscription sent successfully");
+            return subscriptionId;
         }
         catch (SAXException | ParserConfigurationException | IOException e) {
             throw new OMIRequestCreationException("Error parsing O-MI response", e);
