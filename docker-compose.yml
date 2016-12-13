@@ -1,10 +1,10 @@
-version: '1'
+version: '2'
 services:
     oori:
-      build: ./src/main/docker
+      image: biotope/oori
       environment:
-        - SERVER_PORT: "8080"
-        - ENDPOINT_URL: "http://localhost:3030/odfData"
+        - SERVER_PORT = "8080"
+        - ENDPOINT_URL = "http://localhost:3030/odfData"
       ports:
         - "9090:9090"
     fuseki:
