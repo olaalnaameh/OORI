@@ -129,7 +129,7 @@
                 <version>0.2.3</version>
                 <configuration>
                     <imageName>${docker.image.prefix}/${docker.image.name}</imageName>
-                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <dockerDirectory>src/main/docker/oori</dockerDirectory>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>

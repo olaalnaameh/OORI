@@ -7,7 +7,9 @@ services:
         - ENDPOINT_URL = "http://localhost:3030/odfData"
       ports:
         - "9090:9090"
+
     fuseki:
-      image: stain/jena-fuseki
+      build: fuseki/
+      image: oori/fuseki
       ports:
         - "3030:3030"
