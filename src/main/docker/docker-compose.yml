@@ -14,8 +14,8 @@ services:
         - "3030:3030"
 
     o-mi-node:
-        build: o-mi-node/
-        ports:
-          - "8080:8080"
+      build: o-mi-node/
+      ports:
+        - "8080:8080"
 
 

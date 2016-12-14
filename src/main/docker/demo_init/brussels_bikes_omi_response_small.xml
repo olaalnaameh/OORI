@@ -1,0 +1,37 @@
+<omi:omiEnvelope ttl="10.0" version="1.0" xmlns="odf.xsd" xmlns:omi="omi.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <omi:response>
+        <omi:result msgformat="odf">
+            <omi:return returnCode="200">
+            </omi:return>
+            <omi:msg>
+                <Objects>
+                    <Object>
+                        <id>BrusselsBikesParkingSpot</id>
+                        <Object>
+                            <id>328</id>
+                            <InfoItem name="AvailableBikeStands">
+                                <value unixTime="1480763422879" dateTime="2016-12-03T12:10:22.879+01:00" type="xs:int">9</value>
+                                <value unixTime="1480772831156" dateTime="2016-12-03T14:47:11.156+01:00" type="xs:int">10</value>
+                            </InfoItem>
+                            <InfoItem name="AvailableBikes">
+                                <value unixTime="1480763422879" dateTime="2016-12-03T12:10:22.879+01:00" type="xs:int">11</value>
+                                <value unixTime="1480772831156" dateTime="2016-12-03T14:47:11.156+01:00" type="xs:int">10</value>
+                            </InfoItem>
+                        </Object>
+                        <Object>
+                            <id>83</id>
+                            <InfoItem name="AvailableBikeStands">
+                                <value unixTime="1481178074711" dateTime="2016-12-08T07:21:14.711+01:00" type="xs:int">13</value>
+                                <value unixTime="1481178554537" dateTime="2016-12-08T07:29:14.537+01:00" type="xs:int">12</value>
+                            </InfoItem>
+                            <InfoItem name="AvailableBikes">
+                                <value unixTime="1481174233864" dateTime="2016-12-08T06:17:13.864+01:00" type="xs:int">11</value>
+                                <value unixTime="1481178074711" dateTime="2016-12-08T07:21:14.711+01:00" type="xs:int">12</value>
+                            </InfoItem>
+                        </Object>
+                    </Object>
+                </Objects>
+            </omi:msg>
+        </omi:result>
+    </omi:response>
+</omi:omiEnvelope>
