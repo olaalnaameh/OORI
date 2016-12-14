@@ -18,4 +18,5 @@
 
 :tdb_dataset_readwrite
         a             tdb:DatasetTDB ;
+        ja:context [ ja:cxtName "arq:queryTimeout" ;  ja:cxtValue "60000" ] ;
         tdb:location  "/fuseki/databases/odfData" .
