@@ -1,8 +1,5 @@
 <omi:omiEnvelope ttl="10.0" version="1.0" xmlns="odf.xsd" xmlns:omi="omi.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <omi:response>
-        <omi:result msgformat="odf">
-            <omi:return returnCode="200">
-            </omi:return>
+    <omi:write msgformat="odf">
             <omi:msg>
                 <Objects>
                     <Object>
@@ -32,6 +29,5 @@
                     </Object>
                 </Objects>
             </omi:msg>
-        </omi:result>
-    </omi:response>
+    </omi:write>
 </omi:omiEnvelope>

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # add data dump to O-MI node
-todo: add command
+curl -X POST -H "Content-Type: text/plain" --data-ascii "@brussels_bikes_omi_write_large.xml" "http://localhost:8080"
 
 # send subscription for added data to OORI
-todo: add command
+curl -X POST -H "Content-Type: application/json" --data-ascii "@brussels_bikes_subscription_body.json" "http://localhost:9090/nodes"
