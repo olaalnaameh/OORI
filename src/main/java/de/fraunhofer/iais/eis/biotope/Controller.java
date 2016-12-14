@@ -1,6 +1,5 @@
 package de.fraunhofer.iais.eis.biotope;
 
-import org.apache.http.config.SocketConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +14,12 @@ public class Controller  {
     NodeService service;
 
     @RequestMapping(value = "/nodes", method = RequestMethod.POST)
-    public void addAndSubscribeNode(@RequestBody OmiNode node) throws IOException {
+    public void addAndSubscribeAndSyncNode(@RequestBody OmiNode node) throws IOException {
         node.validate();
 
         service.addNode(node);
         service.subscribe(node);
+        service.baselineSync(node);
     }
 
     @RequestMapping(value = "/nodes", method = RequestMethod.GET, produces = "application/json")
@@ -30,6 +30,6 @@ public class Controller  {
 
     @RequestMapping(value = "/callback", method = RequestMethod.POST)
     public void callback(HttpServletRequest body) {
-        service.valueChanged(body.getParameter("msg"));
+        service.persistOmiMessageContent(body.getParameter("msg"));
     }
 }

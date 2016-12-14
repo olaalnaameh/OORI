@@ -3,15 +3,13 @@ package de.fraunhofer.iais.eis.biotope;
 import de.fraunhofer.iais.eis.biotope.exceptions.OMIRequestCreationException;
 import de.fraunhofer.iais.eis.biotope.exceptions.OMIRequestResponseException;
 import de.fraunhofer.iais.eis.biotope.exceptions.OMIRequestSendException;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.eclipse.rdf4j.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +34,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -168,12 +167,8 @@ class NodeService {
         return Integer.parseInt(returnNode.getAttributes().getNamedItem("returnCode").getNodeValue());
     }
 
-    public void unsubscribe(OmiNode omiNode) {
-
-    }
-
-    public void valueChanged(String omiMessage) {
-        logger.info("O-MI value changed. Message: '" +omiMessage+ "'");
+    public void persistOmiMessageContent(String omiMessage) {
+        logger.info("O-MI value changed");
 
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -210,6 +205,18 @@ class NodeService {
 
     public Collection<OmiNode> getOmiNodes() {
         return omiNodes;
+    }
+
+    public void baselineSync(OmiNode omiNode) {
+        HttpResponse response = sendRequest(omiNode.getUrl(), omiNode.getSubscriptionXMLRequest());
+
+        try {
+            String odfContent = IOUtils.toString(response.getEntity().getContent(), Charset.defaultCharset());
+            persistOmiMessageContent(odfContent);
+        }
+        catch (IOException e) {
+            throw new OMIRequestResponseException("Error reading O-MI response conent");
+        }
     }
 
 }
