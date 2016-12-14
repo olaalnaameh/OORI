@@ -3,8 +3,10 @@ services:
     oori:
       image: biotope/oori
       environment:
-        - SERVER_PORT = "9090"
-        - ENDPOINT_URL = "http://localhost:3030/odfData"
+        - SERVER_PORT=9090
+        - ENDPOINT_URL=http://fuseki:3030/odfData
+        - CB_HOSTNAME=oori
+        - CB_PORT=9090
       ports:
         - "9090:9090"
 

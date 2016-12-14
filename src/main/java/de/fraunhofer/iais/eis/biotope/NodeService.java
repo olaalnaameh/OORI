@@ -44,9 +44,9 @@ class NodeService {
 
     private final Logger logger = LoggerFactory.getLogger(NodeService.class);
     private final String CALLBACK_METHOD_PATH = "/callback";
-    private final String DEFAULT_PROTOCOL = "http";
-    private final String DEFAULT_PORT = "9000";
-    private final String DEFAULT_HOSTNAME = "localhost";
+    private final String CB_DEFAULT_PROTOCOL = "http";
+    private final String CB_DEFAULT_PORT = "9090";
+    private final String CB_DEFAULT_HOSTNAME = "localhost";
 
     private DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
     private Collection<OmiNode> omiNodes = new HashSet<>();
@@ -59,14 +59,14 @@ class NodeService {
     private OdfRdfRepository odfRdfRepository;
 
     public NodeService() {
-        String protocol = System.getenv("PROTOCOL");
-        protocol = protocol == null ? DEFAULT_PROTOCOL : protocol;
+        String protocol = System.getenv("CB_PROTOCOL");
+        protocol = protocol == null ? CB_DEFAULT_PROTOCOL : protocol;
 
-        String hostname = System.getenv("HOSTNAME");
-        hostname = hostname == null ? DEFAULT_HOSTNAME : hostname;
+        String hostname = System.getenv("CB_HOSTNAME");
+        hostname = hostname == null ? CB_DEFAULT_HOSTNAME : hostname;
 
-        String port = System.getenv("PORT");
-        port = port == null ? DEFAULT_PORT : port;
+        String port = System.getenv("CB_PORT");
+        port = port == null ? CB_DEFAULT_PORT : port;
 
         callbackUrl = protocol + "://" + hostname + ":" + port + CALLBACK_METHOD_PATH;
     }
@@ -95,6 +95,7 @@ class NodeService {
             Attr interval = doc.createAttribute("interval");
             interval.setValue("-1");
             Attr callback = doc.createAttribute("callback");
+            logger.info("setting callback to: '" +callbackUrl+ "'");
             callback.setValue(callbackUrl);
 
             Node envelopeNode = doc.getElementsByTagName("omi:omiEnvelope").item(0);
