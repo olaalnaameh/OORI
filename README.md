@@ -15,11 +15,11 @@ The project has two main contributions:
 
 ## Getting Started
 
-To start using the server, first obtain the source code by either cloning or downloadin the git repository somewhere to your local system. In these instructions we assume you have the source code available under your home directory in the path ```~/oori```.
+To start using the server, first obtain the source code by either cloning or downloading the git repository somewhere to your local system. In these instructions we assume you have the source code available under your home directory in the path ```~/oori```.
 
 ### Building the project
 
-Go to a command prompt and move to the ```~/oori``` directory.
+Go to a command prompt and move to the ```~/oori``` directory and run the command
 
 ```
 mvn clean package 
@@ -31,30 +31,52 @@ This will give you an executable jar file in the directory ```~/oori/target```. 
 mvn clean package docker:build 
 ```
 
-### Running the Server
+### Get things up and running locally using Docker 
 
-To run the server, simply execute the generated jar file using the following command:
+Make sure you have the ```docker-compose``` utility installed on your system. Go to a command prompt and move to the ```~/oori/src/main/docker``` directory and run the command
+
+```
+docker-compose up
+```
+
+This will locally bring up a preconfigured OORI server, a fuseki server and an O-MI node. If everything worked well, you will be able to point your browser to:
+
+* ```http://localhost:8080/html/webclient/index.html```, which is the local O-MI node, and
+* ```http://localhost:3030/```, which is the local Fuseki server for holding the RDF representation of the O-MI/O-DF data. The default credentials are ```admin/b1oT0pe```.
+
+todo: ingest demo data
+
+### Running the Server without Docker
+
+OORI is packaged as a ```.jar``` file. To run it, simply execute the generated jar file using the following command:
 
 ```
 java -jar oori-0.0.1-SNAPSHOT.jar
 ```
 
-The filename varies depending on the current version of the project. The command will start the OORI server at the default port 8080.
+The filename varies depending on the current version of the project. The command will start the OORI server at the default port 9090.
 
 ### Configuration
 
 Currently you can customize the following properties:
  
- 1. The port the server runs on, and
- 2. The SPARQL endpoint that should be used for storing the generated RDF data.
+ 1. The port the server runs on,
+ 2. The SPARQL endpoint that should be used for storing the generated RDF data,
+ 3. Callback parameters to specify the URL where data changes should be posted by the O-MI node
 
-If you start OORI using java, you can set these properties in the following form:
+If you start OORI using java, you can set the properties (1) and (2) in the following form:
 
 ```
 java -Dserver.port=SERVER_PORT -Dendpoint.url=ENDPOINT_URL -jar oori-0.0.1-SNAPSHOT.jar
 ```
 
-When using docker, these properties can also be set as environment variables named ```SERVER_PORT``` and ```ENDPOINT_URL``` in the Dockerfile.
+When using Docker, these properties can also be set as environment variables named ```SERVER_PORT``` and ```ENDPOINT_URL``` in the Dockerfile. The properties for the callback parameters (2) can only be set as environment variables:
+
+* ```CB_PROTOCOL```: protocol used in the callback URL (default: ```http```),
+* ```CB_PORT```: port used in the callback URL (default: ```9090```, should be the same as SERVER_PORT and will be removed in future versions),
+* ```CB_HOSTNAME```: hostname used in the callback URL. MUST be set for productive installations as the default value ```localhost``` will not be resolvable.
+ 
+In future versions of OORI, we plan to further consolidate and simplify these configuration parameters 
 
 ## Usage
 
