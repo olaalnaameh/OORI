@@ -13,7 +13,7 @@ The project has two main contributions:
 1. A server exposing HTTP methods that allow to register O-DF structures that should be constantly converted and stored to an RDF triple store.   
 2. An RDF ontology that defines classes and properties to describe O-DF structures. It is used by the server to perform O-DF conversion into RDF.
 
-## Getting Started
+## Getting started locally with demo data
 
 To start using the server, first obtain the source code by either cloning or downloading the git repository somewhere to your local system. In these instructions we assume you have the source code available under your home directory in the path ```~/oori```.
 
@@ -31,7 +31,7 @@ This will give you an executable jar file in the directory ```~/oori/target```. 
 mvn clean package docker:build 
 ```
 
-### Get things up and running locally using Docker 
+### Get things up and running using Docker 
 
 Make sure you have the ```docker-compose``` utility installed on your system. Go to a command prompt and move to the ```~/oori/src/main/docker``` directory and run the command
 
@@ -44,9 +44,16 @@ This will locally bring up a preconfigured OORI server, a fuseki server and an O
 * ```http://localhost:8080/html/webclient/index.html```, which is the local O-MI node, and
 * ```http://localhost:3030/```, which is the local Fuseki server for holding the RDF representation of the O-MI/O-DF data. The default credentials are ```admin/b1oT0pe```.
 
-todo: ingest demo data
+In the next step you will populate the O-MI node with some demo O-MI/O-DF data and issue a subscription to OORI so that the demo data gets converted into RDF format and stored in Fuseki. To do this, move to the directory ```~/oori/src/main/docker/demo_init``` using another terminal and execute the data initialization script:
+ 
+```
+./demo_init.sh
+```
 
-### Running the Server without Docker
+After clicking the 'Read All' button in the [local O-MI node](http://localhost:8080/html/webclient/index.html), you can notice that now you have an object ```BrusselsBikesParkingSpot``` containing data about available bike stands in Brussels. Furthermore, the script sent a subscription on this dataset to the OORI server running in the Docker container. An initial baseline synchronization has been performed wich resulted into conversion of the bike stands data into RDF and storage into Fuseki. You can check the RDF data by going to Fuseki's [data query frontend](http://localhost:3030/dataset.html?tab=query).
+
+
+## Running the Server without Docker
 
 OORI is packaged as a ```.jar``` file. To run it, simply execute the generated jar file using the following command:
 
@@ -76,7 +83,9 @@ When using Docker, these properties can also be set as environment variables nam
 * ```CB_PORT```: port used in the callback URL (default: ```9090```, should be the same as SERVER_PORT and will be removed in future versions),
 * ```CB_HOSTNAME```: hostname used in the callback URL. MUST be set for productive installations as the default value ```localhost``` will not be resolvable.
  
-In future versions of OORI, we plan to further consolidate and simplify these configuration parameters 
+In future versions of OORI, we plan to further consolidate and simplify these configuration parameters. 
+
+**For easy configuration and deployment we highly recommend to adopt the file ```docker-compose.yml``` for the local demo installation in the directory ```~oori/src/main/docker/``` and adjust it to your needs. You may want to remove the O-MI node which would not be necessary if your goal is to set up a public OORI server that should be used by 'third-party' O-MI nodes on the Web.** 
 
 ## Usage
 
