@@ -1,4 +1,4 @@
-@prefix odf: <http://www.w3.org/2002/07/owl#> .
+@prefix odf: <http://eis-biotope.iais.fraunhofer.de/odf#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -41,7 +41,6 @@ odf:metadata a owl:ObjectProperty;
 odf:infoitem a owl:ObjectProperty;
     rdfs:range odf:InfoItem.
 
-odf:objects a owl:ObjectProperty;
+odf:object a owl:ObjectProperty;
     rdfs:domain odf:Object;
     rdfs:range odf:Object.
-
