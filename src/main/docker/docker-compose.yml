@@ -9,6 +9,7 @@ services:
         - CB_PORT=9090
       ports:
         - "9090:9090"
+        - "5005:5005"   # java debugging
 
     fuseki:
       build: fuseki/
