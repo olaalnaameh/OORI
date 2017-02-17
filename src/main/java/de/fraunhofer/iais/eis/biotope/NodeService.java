@@ -168,7 +168,7 @@ class NodeService {
     }
 
     public void persistOmiMessageContent(String omiMessage) {
-        logger.info("O-MI value changed");
+        logger.info("O-MI value changed: " +omiMessage);
 
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
