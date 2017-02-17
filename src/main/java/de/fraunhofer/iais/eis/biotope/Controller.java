@@ -37,14 +37,7 @@ public class Controller  {
 
     @RequestMapping(value = "/callback", method = RequestMethod.POST)
     public void callback(HttpServletRequest body) throws IOException {
-        String messageContent = body.getParameter("msg");
-        if (messageContent == null) {
-            logger.info("Received callback message with no content");
-
-            System.out.println(IOUtils.toString(body.getInputStream(), Charset.defaultCharset()));
-        }
-        else {
-            service.persistOmiMessageContent(body.getParameter("msg"));
-        }
+        String messageContent = IOUtils.toString(body.getInputStream(), Charset.defaultCharset());
+        service.persistOmiMessageContent(messageContent);
     }
 }
