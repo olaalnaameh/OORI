@@ -21,6 +21,9 @@ if [ ! -z "$PROXY_HOST" ]; then
     fi
 fi
 
+# Enable debugging
+ARGS="${ARGS} -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
+
 echo "ARGS=${ARGS}"
 
 exec java ${ARGS} -jar /oori.jar
