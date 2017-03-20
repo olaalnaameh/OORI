@@ -51,6 +51,7 @@ public class Value {
         this.datavalue = datavalue;
     }
 
+    /*
     public Model serialize(ValueFactory vf) {
         Literal createdValue = vf.createLiteral(DatatypeConverter.parseDateTime(datetime).getTime());
         Literal dataValue = vf.createLiteral(datavalue, vf.createIRI(type));
@@ -69,4 +70,5 @@ public class Value {
 
         return builder.build();
     }
+    */
 }

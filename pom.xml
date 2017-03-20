@@ -20,6 +20,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>de.fraunhofer.iais.eis</groupId>
+            <artifactId>jrdfb</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <version>${spring-boot.version}</version>
@@ -141,5 +147,13 @@
             </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>isst-repo</id>
+            <name>Maven repository at ISST</name>
+            <url>https://mvn.isst.fraunhofer.de/artifactory/ids-local</url>
+        </repository>
+    </repositories>
 
 </project>

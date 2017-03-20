@@ -26,6 +26,7 @@ public class MetaData {
         this.infoItems = infoItems;
     }
 
+    /*
     public Model serialize(ValueFactory vf, String baseIri) {
         BNode subject = vf.createBNode();
 
@@ -49,5 +50,6 @@ public class MetaData {
 
         return metadataModel;
     }
+    */
 
 }

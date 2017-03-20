@@ -49,6 +49,7 @@ public class Object {
         this.objects = objects;
     }
 
+    /*
     public Model serialize(ValueFactory vf, String objectBaseIri, String infoItemBaseIri) {
 
         IRI subject = vf.createIRI(objectBaseIri + id);
@@ -84,6 +85,6 @@ public class Object {
 
         return objectModel;
     }
-
+    */
 
 }

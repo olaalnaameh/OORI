@@ -49,6 +49,7 @@ public class InfoItem {
         this.metaData = metaData;
     }
 
+    /*
     public Model serialize(ValueFactory vf, String infoItemBaseIri) {
         IRI subject = vf.createIRI(infoItemBaseIri + name);
 
@@ -83,4 +84,5 @@ public class InfoItem {
 
         return infoItemModel;
     }
+    */
 }
