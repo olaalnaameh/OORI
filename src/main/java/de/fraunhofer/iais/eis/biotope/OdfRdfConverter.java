@@ -2,6 +2,8 @@ package de.fraunhofer.iais.eis.biotope;
 
 import de.fraunhofer.iais.eis.biotope.domainObjs.Object;
 import de.fraunhofer.iais.eis.biotope.domainObjs.Objects;
+import de.fraunhofer.iais.eis.jrdfb.JrdfbException;
+import de.fraunhofer.iais.eis.jrdfb.serializer.RdfSerializer;
 import org.apache.commons.io.IOUtils;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Model;
@@ -51,6 +53,16 @@ public class OdfRdfConverter {
         Model model = new ModelBuilder().build();
         beans.getObjects().forEach(objectBean -> model.addAll(objectBean.serialize(vf, objectBaseIri, infoItemBaseIri)));
         //dumpModel(model);
+
+        //todo: add uri info to the objects
+        for (Object obj : beans.getObjects()) {
+            try {
+                new RdfSerializer().serialize(obj);
+            } catch (JrdfbException e) {
+                e.printStackTrace();
+            }
+        }
+
 
         return model;
     }

@@ -1,6 +1,9 @@
 package de.fraunhofer.iais.eis.biotope.domainObjs;
 
 import de.fraunhofer.iais.eis.biotope.vocabs.NS;
+import de.fraunhofer.iais.eis.biotope.vocabs.ODF;
+import de.fraunhofer.iais.eis.jrdfb.annotation.RdfType;
+import de.fraunhofer.iais.eis.jrdfb.vocabulary.VCARD;
 import org.eclipse.rdf4j.model.*;
 import org.eclipse.rdf4j.model.datatypes.XMLDateTime;
 import org.eclipse.rdf4j.model.util.ModelBuilder;
@@ -20,9 +23,14 @@ import java.util.Collection;
 import java.util.Date;
 
 @XmlRootElement(name = "value")
+@RdfType(ODF.VALUE)
 public class Value {
 
-    private String datetime, type, datavalue;
+    private String datetime;
+
+    private String type;
+
+    private String datavalue;
 
     public String getDatetime() {
         return datetime;
