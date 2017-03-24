@@ -1,6 +1,8 @@
 package de.fraunhofer.iais.eis.biotope.domainObjs;
 
+import de.fraunhofer.iais.eis.biotope.ConfigurationProvider;
 import de.fraunhofer.iais.eis.biotope.vocabs.NS;
+import de.fraunhofer.iais.eis.jrdfb.annotation.RdfId;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Resource;
@@ -11,6 +13,8 @@ import org.eclipse.rdf4j.model.vocabulary.RDF;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -47,6 +51,11 @@ public class InfoItem {
     @XmlElement(name = "MetaData")
     public void setMetaData(Collection<MetaData> metaData) {
         this.metaData = metaData;
+    }
+
+    @RdfId
+    public URL getId() throws MalformedURLException {
+        return new URL(ConfigurationProvider.getInfoItemBaseIri() + name);
     }
 
     /*

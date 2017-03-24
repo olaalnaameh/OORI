@@ -38,16 +38,10 @@ import java.nio.charset.Charset;
 @Component
 public class OdfRdfConverter {
 
-    private final static String BASE_URI = "http://eis-biotope.iais.fraunhofer.de/";
-
-    private String hostname = "localhost";
-
     public Model odf2rdf(InputStream odfStructure) {
         Objects beans = JAXB.unmarshal(odfStructure, Objects.class);
 
         ValueFactory vf = new MemValueFactory();
-        String objectBaseIri = BASE_URI + hostname + "/obj/";
-        String infoItemBaseIri = BASE_URI + hostname + "/infoitem/";
 
         Model model = new ModelBuilder().build();
 
@@ -70,7 +64,4 @@ public class OdfRdfConverter {
         rdfWriter.endRDF();
     }
 
-    public void setHostname(String hostname) {
-        this.hostname = hostname;
-    }
 }

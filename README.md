@@ -82,14 +82,13 @@ If you start OORI using java, you can set the properties (1) and (2) in the foll
 java -Dserver.port=SERVER_PORT -Dendpoint.url=ENDPOINT_URL -jar oori-0.0.1-SNAPSHOT.jar
 ```
 
-When using Docker, these properties can also be set as environment variables named ```SERVER_PORT``` and ```ENDPOINT_URL``` in the Dockerfile. The properties for the callback parameters (2) can only be set as environment variables:
+When using Docker, these properties can also be set as environment variables named ```SERVER_PORT``` and ```ENDPOINT_URL``` in the Dockerfile. 
+Furthermore, these variables should be set as well:
 
-* ```CB_PROTOCOL```: protocol used in the callback URL (default: ```http```),
-* ```CB_PORT```: port used in the callback URL (default: ```9090```, should be the same as SERVER_PORT and will be removed in future versions),
-* ```CB_HOSTNAME```: hostname used in the callback URL. MUST be set for productive installations as the default value ```localhost``` will not be resolvable.
+* ```PROTOCOL```: protocol used in the URLs for the callback and on resource generation (default: ```http```),
+* ```CALLBACK_PORT```: port used in the callback URL,
+* ```HOSTNAME```: hostname used in the callback URL and on resource generation. MUST be set for productive installations as the default value ```localhost``` will not be resolvable.
  
-In future versions of OORI, we plan to further consolidate and simplify these configuration parameters. 
-
 ## Usage
 
 OORI provides the REST endpoint
