@@ -193,6 +193,9 @@ class NodeService {
         NodeList childNodes = node.getChildNodes();
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < childNodes.getLength(); i++) {
+            Node childNode = childNodes.item(i);
+            if (childNode.getTextContent().trim().isEmpty()) continue;
+
             sb.append(lsSerializer.writeToString(childNodes.item(i)));
         }
         return sb.toString();
