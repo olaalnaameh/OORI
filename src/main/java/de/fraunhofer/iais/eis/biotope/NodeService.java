@@ -40,7 +40,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Component
-class NodeService {
+public class NodeService {
 
     private final Logger logger = LoggerFactory.getLogger(NodeService.class);
     private final String CALLBACK_METHOD_PATH = "/callback";
@@ -228,13 +228,14 @@ class NodeService {
 
     private void persistOdfStructure(String odfStructure) {
     	
-    	
         Model odfData = odfRdfConverter.odf2rdf(new ByteArrayInputStream(odfStructure.getBytes(StandardCharsets.UTF_8)));
         odfRdfRepository.persist(odfData);
         
     }
     
     private void returnOdfStructure(String odfStructure) {
+
+    	//System.out.println(odfStructure);
         Model odfData = odfRdfConverter.odf2rdf(new ByteArrayInputStream(odfStructure.getBytes(StandardCharsets.UTF_8)));
         this.omiRDFModel=odfData;
         odfRdfRepository.persist(odfData);

@@ -33,6 +33,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/Ola/Desktop/OORI-master/javax.json.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ola/Desktop/OORI-master/tyrus-standalone-client-1.12.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -62,9 +62,9 @@ public class Controller{
     public void toRDF(@RequestBody OmiNodeResult nodeResult)
     {
     	String odfContent = nodeResult.getSubscriptionXMLResult();
-    	Model odfModel=null;
-	        odfContent=odfContent.replace(" xmlns=\"http://www.opengroup.org/xsd/odf/1.0/\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:odf=\"http://www.opengroup.org/xsd/odf/1.0/\"", "");
-	        service.returnOmiMessageContent(odfContent);
+	    odfContent=odfContent.replace(" xmlns=\"http://www.opengroup.org/xsd/odf/1.0/\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:odf=\"http://www.opengroup.org/xsd/odf/1.0/\"", "");
+	    //System.out.println(odfContent);
+	    service.returnOmiMessageContent(odfContent);
     }
     
     
@@ -76,10 +76,9 @@ public class Controller{
     	Model m=service.getRDFModel();
     	StringWriter writer= new StringWriter();
     	TurtleWriter rdfWriter = new TurtleWriter(writer);
-            rdfWriter.startRDF();
-            m.forEach(statment -> rdfWriter.handleStatement(statment));
-            rdfWriter.endRDF();
-		
+    	rdfWriter.startRDF();
+    	m.forEach(statment -> rdfWriter.handleStatement(statment));
+    	rdfWriter.endRDF();
         return writer.toString();
     }
     catch (NullPointerException e)
