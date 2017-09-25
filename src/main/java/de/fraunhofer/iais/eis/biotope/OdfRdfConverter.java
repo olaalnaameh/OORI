@@ -62,11 +62,8 @@ public class OdfRdfConverter {
         ValueFactory vf = new MemValueFactory();
         String objectBaseIri = BASE_URI + hostname + "/obj/";
         String infoItemBaseIri = BASE_URI + hostname + "/infoitem/";
-	    System.out.println("-------------------------------------------------------------------");
-	    System.out.println((beans.getObjects()).size());
 	    Model model = new ModelBuilder().build();
 	    beans.getObjects().forEach(objectBean -> model.addAll(objectBean.serialize(vf, objectBaseIri, infoItemBaseIri)));
-	    System.out.println("-------------------------------------------------------------------");
 		
 		return model;
     }

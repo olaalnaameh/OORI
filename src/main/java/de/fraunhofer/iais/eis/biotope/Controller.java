@@ -64,7 +64,6 @@ public class Controller{
     	String odfContent = nodeResult.getSubscriptionXMLResult();
     	Model odfModel=null;
 	        odfContent=odfContent.replace(" xmlns=\"http://www.opengroup.org/xsd/odf/1.0/\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:odf=\"http://www.opengroup.org/xsd/odf/1.0/\"", "");
-	        System.out.println(odfContent);
 	        service.returnOmiMessageContent(odfContent);
     }
     
@@ -72,6 +71,8 @@ public class Controller{
     @RequestMapping(value = "/rdfModel", method = RequestMethod.GET)
     @ResponseBody
     public String getRDFModel() {
+    try
+    {
     	Model m=service.getRDFModel();
     	StringWriter writer= new StringWriter();
     	TurtleWriter rdfWriter = new TurtleWriter(writer);
@@ -80,6 +81,12 @@ public class Controller{
             rdfWriter.endRDF();
 		
         return writer.toString();
+    }
+    catch (NullPointerException e)
+    {
+    	
+    }
+	return null;
     }
     
 }
